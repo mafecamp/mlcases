@@ -29,21 +29,21 @@ def parse_labels(labels: list):
 parser = argparse.ArgumentParser(
     prog="multilabel text utilities", description="Process some integers."
 )
-parser.add_argument(
-    "--input-type", type=str, help="The input type to be used", default="phrase"
-)
-parser.add_argument("phrase", type=str, help="The phrase to be classified")
-parser.add_argument("threshold", type=float, help="The threshold to be used")
+
+parser.add_argument("--confianca", type=float, help="A confiança mínima para a classificação, entre 0 e 1 (decimal).", required=True)
+parser.add_argument("--frase", type=str, help="A frase que deve ser classificada")
+parser.add_argument("--arquivo", type=str, help="Arquivo com frases a serem classificadas (uma frase por linha)")
+parser.add_argument("--input-type", type=str, help="Tipo de entrada (arquivo ou frase)", default="frase")
 
 parsed_args = parser.parse_args()
 input_type = parsed_args.input_type
 
-if parsed_args.input_type == "phrase":
-    phrase = parsed_args.phrase
+if parsed_args.input_type == "frase":
+    phrase = parsed_args.frase
 else:
     raise ValueError(f"Input type {parsed_args.input_type} not supported")
 
-threshold = parsed_args.threshold
+threshold = parsed_args.confianca
 labels = settings.prediction.labels
 id2label, label2id = parse_labels(labels)
 
@@ -106,11 +106,11 @@ def predict_phrase(phrase):
 
 
 # create string from list itens
-if input_type == "phrase":
+if input_type == "frase":
     predicted_labels = predict_phrase(phrase)
     labels_str = ", ".join(predicted_labels)
     logger.info(f"Rótulos: {labels_str}")
-elif input_type == "file":
+elif input_type == "arquivo":
     with open(phrase, "r") as f:
         for line in f:
             predicted_labels = predict_phrase(line)
