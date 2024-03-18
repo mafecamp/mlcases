@@ -2,14 +2,22 @@
 import cv2
 from mediapipe.tasks.python import vision
 import mediapipe as mp
-import sys
-from PIL import Image
+import argparse
 
 cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_POS_FRAMES, 20)
 
+parser = argparse.ArgumentParser(
+    prog="hand sign recognition", description="Processa feed de webcam em busca de sinais de mão."
+)
+
+parser.add_argument("--model", type=str, help="Caminho para o modelo a ser utilizado", default="models/mix.task")
+
 VisionRunningMode = mp.tasks.vision.RunningMode
-model_path = f"models/large.task"
+# model_path = f"models/large.task"
+# parse args
+parsed_args = parser.parse_args()
+model_path = parsed_args.model
 
 recognizer = vision.GestureRecognizer.create_from_model_path(
     model_path,
