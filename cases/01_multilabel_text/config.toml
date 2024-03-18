@@ -1,0 +1,10 @@
+[default]
+base_model_name = "neuralmind/bert-base-portuguese-cased"
+trained_model_path = "models/standard"
+trained_model_gdrive_link = "https://drive.google.com/file/d/1MfyowP9czztTx58dRn6xSFTNbwR2CmnL/view?usp=sharing"
+
+[default.prediction]
+labels = ["educação", "finanças", "indústrias", "orgão público", "varejo"]
+
+[default.train]
+dataset = "data/default.csv"
