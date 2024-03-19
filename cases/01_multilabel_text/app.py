@@ -27,13 +27,24 @@ def parse_labels(labels: list):
 
 
 parser = argparse.ArgumentParser(
-    prog="multilabel text utilities", description="Process some integers."
+    prog="multilabel text model", description="App de classificação de texto multi rótulos."
 )
 
-parser.add_argument("--confianca", type=float, help="A confiança mínima para a classificação, entre 0 e 1 (decimal).", required=True)
+parser.add_argument(
+    "--confianca",
+    type=float,
+    help="A confiança mínima para a classificação, entre 0 e 1 (decimal).",
+    required=True,
+)
 parser.add_argument("--frase", type=str, help="A frase que deve ser classificada")
-parser.add_argument("--arquivo", type=str, help="Arquivo com frases a serem classificadas (uma frase por linha)")
-parser.add_argument("--input-type", type=str, help="Tipo de entrada (arquivo ou frase)", default="frase")
+parser.add_argument(
+    "--arquivo",
+    type=str,
+    help="Arquivo com frases a serem classificadas (uma frase por linha)",
+)
+parser.add_argument(
+    "--input-type", type=str, help="Tipo de entrada (arquivo ou frase)", default="frase"
+)
 
 parsed_args = parser.parse_args()
 input_type = parsed_args.input_type
@@ -69,7 +80,7 @@ if not os.path.exists(settings.trained_model_path):
     file_id = "1MfyowP9czztTx58dRn6xSFTNbwR2CmnL"
     gdown.download(id=file_id, output="model.zip", quiet=False)
     logger.info("Descompactando o modelo...")
-    os.system(f"unzip model.zip -d ./models/")
+    os.system("unzip model.zip -d ./models/")
 
 new_model = AutoModelForSequenceClassification.from_pretrained(
     settings.trained_model_path,

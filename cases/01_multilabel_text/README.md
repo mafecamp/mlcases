@@ -19,10 +19,10 @@ pip install -r requirements.txt
 
 ```bash
 # retorna classe para um unico item
-python app01_text --input_text "texto a ser classificado" --model "bert_fine_tuned.pt"
+python text.py --input_text "texto a ser classificado" --model "bert_fine_tuned.pt"
 
 # retorna classe para varios itens, documento com um item por linha
-python app01_text --input_file "arquivo.txt" --model "bert_fine_tuned.pt"
+python text.py --input_file "arquivo.txt" --model "bert_fine_tuned.pt"
 ```
 
 ## Caso de uso: retreino
@@ -30,7 +30,7 @@ python app01_text --input_file "arquivo.txt" --model "bert_fine_tuned.pt"
 Caso queira treinar com um novo caso de uso, basta rodar:
 
 ```bash
-python app01_text --train_file "train.csv" --model "bert_fine_tuned.pt" --output_model "your_model.pt"
+python train.py --train_file "train.csv" --model "bert_fine_tuned.pt" --output_model "your_model.pt"
 ```
 
 O formato do arquivo de entrada `train.csv` é um CSV, com as colunas:
