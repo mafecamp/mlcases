@@ -2,6 +2,8 @@ from src.model import default_vae
 from src.images import loadImage, reconstruct, morphBetweenImages
 import matplotlib.pyplot as plt
 import argparse
+from gdown import download as gdown_download
+from loguru import logger
 
 # silence tensorflow warnings
 import os
@@ -11,9 +13,11 @@ parser = argparse.ArgumentParser(
     prog="dog breeding VAE", description="App de criação de imagens de cachorros."
 )
 
+default_model_path = "models/50epochs"
+
 parser.add_argument("--dog1", type=str, help="Path to the first dog image", required=True)
 parser.add_argument("--dog2", type=str, help="Path to the second dog image", required=True)
-parser.add_argument("--model", type=str, help="Path to the trained model", default="models/50epochs")
+parser.add_argument("--model", type=str, help="Path to the trained model", default=default_model_path)
 parser.add_argument("--mode", type=str, help="Run mode", default="blend")
 parser.add_argument("--show", type=bool, help="Show image", default=False)
 parser.add_argument("--save-path", type=str, help="Path to save the image (optional)", default=None)
@@ -30,6 +34,15 @@ save_path = parsed_args.save_path
 # Instancia o modelo
 VAE = default_vae()
 R_LOSS_FACTOR = 1000
+
+if (model_path == default_model_path) and (not os.path.exists(model_path)):
+    # Baixa o modelo a primeira vez caso não exista
+    # https://drive.google.com/file/d/1SUO3bC42YywrzA4aEGJqAV7NUBO9u3QY/view?usp=sharing
+    logger.info("Baixando o modelo pré-treinado padrão pela primeira vez...")
+    file_id = "1SUO3bC42YywrzA4aEGJqAV7NUBO9u3QY"
+    gdown_download(id=file_id, output="model.zip", quiet=False)
+    logger.info("Descompactando o modelo...")
+    os.system("unzip model.zip -d ./models/")
 
 VAE.load_trained_model(load_path=model_path, r_loss_factor=R_LOSS_FACTOR)
 
