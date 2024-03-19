@@ -9,11 +9,22 @@ GestureRecognizerOptions = mp.tasks.vision.GestureRecognizerOptions
 VisionRunningMode = mp.tasks.vision.RunningMode
 
 parser = argparse.ArgumentParser(
-    prog="hand sign recognition", description="Processa vídeo ou feed de webcam em busca de sinais de mão."
+    prog="hand sign recognition",
+    description="Processa vídeo ou feed de webcam em busca de sinais de mão.",
 )
 
-parser.add_argument("--video", type=str, help="Caminho para o vídeo a ser processado", default="./data/asl_alphabet.mp4")
-parser.add_argument("--model", type=str, help="Caminho para o modelo a ser utilizado", default="models/mix.task")
+parser.add_argument(
+    "--video",
+    type=str,
+    help="Caminho para o vídeo a ser processado",
+    default="./data/asl_alphabet.mp4",
+)
+parser.add_argument(
+    "--model",
+    type=str,
+    help="Caminho para o modelo a ser utilizado",
+    default="models/mix.task",
+)
 
 parsed_args = parser.parse_args()
 
@@ -40,7 +51,7 @@ frames_register = {}
 while cap.isOpened() and frames_to_run > 0:
     ret, frame = cap.read()
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(1) & 0xFF == ord("q"):
         break
 
     cv2.imshow("frame", frame)
@@ -61,11 +72,12 @@ while cap.isOpened() and frames_to_run > 0:
 
     if len(top_gesture) > 0:
         top_gesture = top_gesture[0][0]
-        print(f"Gesture recognized: {top_gesture.category_name} ({top_gesture.score}, frame {timestamp})")
+        print(
+            f"Gesture recognized: {top_gesture.category_name} ({top_gesture.score}, frame {timestamp})"
+        )
         frames_register[timestamp] = recognition_result
 
     frames_to_run -= 1
-
 
 
 # save register as pandas with time, gesture

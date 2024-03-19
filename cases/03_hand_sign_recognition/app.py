@@ -8,10 +8,16 @@ cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_POS_FRAMES, 20)
 
 parser = argparse.ArgumentParser(
-    prog="hand sign recognition", description="Processa feed de webcam em busca de sinais de mão."
+    prog="hand sign recognition",
+    description="Processa feed de webcam em busca de sinais de mão.",
 )
 
-parser.add_argument("--model", type=str, help="Caminho para o modelo a ser utilizado", default="models/mix.task")
+parser.add_argument(
+    "--model",
+    type=str,
+    help="Caminho para o modelo a ser utilizado",
+    default="models/mix.task",
+)
 
 VisionRunningMode = mp.tasks.vision.RunningMode
 # model_path = f"models/large.task"
@@ -31,7 +37,7 @@ capture = {}
 while cap.isOpened() and frames_to_run > 0:
     ret, frame = cap.read()
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(1) & 0xFF == ord("q"):
         break
 
     # convert to 28x28
@@ -58,9 +64,11 @@ while cap.isOpened() and frames_to_run > 0:
 
     if len(top_gesture) > 0:
         top_gesture = top_gesture[0][0]
-        print(f"Gesture recognized: {top_gesture.category_name} ({top_gesture.score}, frame {timestamp})")
+        print(
+            f"Gesture recognized: {top_gesture.category_name} ({top_gesture.score}, frame {timestamp})"
+        )
 
-    capture[frames_to_run] = recognition_result   
+    capture[frames_to_run] = recognition_result
     frames_to_run -= 1
 
 
