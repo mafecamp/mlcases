@@ -8,18 +8,15 @@ O propósito é reconhecer sinais de mão em tempo real, usando a webcam, e tamb
 
 ## Status
 
-O modelo é capaz de reconhecer corretamente ~8 sinais de mão.
-
-## Treino
-
-Para treinar o modelo, usamos o Hand MNIST. Basicamente, ele traz dataframes com os pixels (28x28) de cada imagem com um sinal de mão, parte gerada de imagens reais e algumas outras geradas por augmentation.
+O modelo é capaz de reconhecer corretamente ~8 sinais de mão, mas há bastante confusão. Ainda resta trabalhar mais no modelo.
 
 ## Uso
 
 ### Vídeo estático
 
 ```bash
-python static.py large.task
+# modelos prontos: mix (dataset aumentado), large (dataset original)
+python static.py --video ./data/asl_alphabet.mp4 --model models/mix.task
 ```
 
 ### Webcam - tempo real
@@ -27,8 +24,13 @@ python static.py large.task
 Ao rodar o script, ele irá abrir a webcam e reconhecer os sinais de mão. Para sair, basta pressionar a tecla `q`.
 
 ```bash
-python app.py large.task
+python app.py --model models/mix.task
 ```
+
+## Sobre treino
+
+Para treinar o modelo, usamos o Hand MNIST. Basicamente, ele traz dataframes com os pixels (28x28) de cada imagem com um sinal de mão, parte gerada de imagens reais e algumas outras geradas por augmentation.
+
 
 ## Ideias de melhoria
 

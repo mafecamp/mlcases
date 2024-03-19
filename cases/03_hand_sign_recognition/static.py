@@ -1,5 +1,4 @@
 import mediapipe as mp
-import sys
 import cv2
 import argparse
 
