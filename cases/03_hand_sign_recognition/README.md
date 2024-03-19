@@ -1,6 +1,7 @@
 # README
 
-Reconhecimento de sinais de mão (dos Estados Unidos) usando a biblioteca OpenCV/Mediapipe.
+Reconhecimento de sinais de mão (dos Estados Unidos) usando a biblioteca OpenCV/Mediapipe, 
+em arquivo de vídeo ou webcam.
 
 ## Propósito
 

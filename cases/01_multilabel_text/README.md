@@ -1,9 +1,11 @@
 # README
 
-Dada uma entrada de texto com vários rótulos:
+Classificação multi-label de texto a partir do BERT em português.
 
-1. Treina rede neural para classificar novos casos;
-2. Endpoint de previsão para classificar após treinado.
+Casos de uso:
+
+- Treino (fine tuning) de rede neural para classificar novos textos;
+- Método para classificar textos com a rede neural que já passou por fine tuning.
 
 Simples uso de fine tuning do BERT português.
 

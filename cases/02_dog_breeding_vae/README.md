@@ -2,7 +2,7 @@
 
 Propósito:
 
-- Dados cães de raças diferentes, gerar imagens de cães que seriam o resultado do cruzamento entre eles usando VAEs.
+- Dadas duas imagens de cães de raças diferentes, gera imagens de cães que seriam o resultado da mistura das imagens entre eles usando VAEs, dando um vislumbre da mistura entre os dois cães.
 
 ## Status
 
