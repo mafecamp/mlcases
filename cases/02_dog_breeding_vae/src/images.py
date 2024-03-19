@@ -45,4 +45,4 @@ def morphBetweenImages(img1, img2, VAE, num_of_morphs):
     ax.axis("off")
     ax.set_title(loc="center", label="original image 2", fontsize=10)
 
-    plt.show()
+    return plt
