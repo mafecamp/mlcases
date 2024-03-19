@@ -27,7 +27,8 @@ def parse_labels(labels: list):
 
 
 parser = argparse.ArgumentParser(
-    prog="multilabel text model", description="App de classificação de texto multi rótulos."
+    prog="multilabel text model",
+    description="App de classificação de texto multi rótulos.",
 )
 
 parser.add_argument(
@@ -43,36 +44,27 @@ parser.add_argument(
     help="Arquivo com frases a serem classificadas (uma frase por linha)",
 )
 parser.add_argument(
-    "--input-type", type=str, help="Tipo de entrada (arquivo ou frase)", default="frase"
+    "--tipo", type=str, help="Tipo de entrada (arquivo ou frase)", default="frase"
 )
 
 parsed_args = parser.parse_args()
-input_type = parsed_args.input_type
+input_type = parsed_args.tipo
+valid_types = ["frase", "arquivo"]
 
-if parsed_args.input_type == "frase":
-    phrase = parsed_args.frase
-else:
-    raise ValueError(f"Input type {parsed_args.input_type} not supported")
+logger.info(f"Tipo de entrada: {input_type}")
+
+if input_type not in valid_types:
+    raise ValueError(f"Input type {input_type} not supported")
+
+if input_type == "frase" and parsed_args.frase is None:
+    raise ValueError("Frase não pode ser nula")
+
+if input_type == "arquivo" and parsed_args.arquivo is None:
+    raise ValueError("Arquivo não pode ser nulo")
 
 threshold = parsed_args.confianca
 labels = settings.prediction.labels
 id2label, label2id = parse_labels(labels)
-
-# id2label = {
-#     0: "educação",
-#     1: "finanças",
-#     2: "indústrias",
-#     3: "orgão público",
-#     4: "varejo",
-# }
-
-# label2id = {
-#     "educação": 0,
-#     "finanças": 1,
-#     "indústrias": 2,
-#     "orgão público": 3,
-#     "varejo": 4,
-# }
 
 if not os.path.exists(settings.trained_model_path):
     # Baixa o modelo a primeira vez caso não exista
@@ -122,14 +114,20 @@ if input_type == "frase":
     labels_str = ", ".join(predicted_labels)
     logger.info(f"Rótulos: {labels_str}")
 elif input_type == "arquivo":
-    with open(phrase, "r") as f:
-        for line in f:
-            predicted_labels = predict_phrase(line)
-            logger.info(f"Predicted labels: {predicted_labels}")
+    line_no = 1
+    for line in open(parsed_args.arquivo, "r"):
+        predicted_labels = predict_phrase(line)
+        logger.info(f"Linha {line_no}: {predicted_labels}")
+        line_no += 1
 
-            # save as predictions
-            with open("predictions.txt", "a") as f:
-                f.write(f"{line.strip()} - {predicted_labels}\n")
+        # save as predictions
+        with open("predictions.txt", "a") as f:
+            predicted_labels_commasep = ", ".join(predicted_labels)
+            # add quotes
+
+            f.write(f'{line.strip()},"{predicted_labels_commasep}"\n')
+
+    logger.info("Predições salvas em predictions.txt")
 else:
     raise ValueError(
         f"Input type {input_type} not supported. Use one of: 'phrase' or 'file'"
