@@ -7,11 +7,20 @@ Dada uma entrada de texto com vários rótulos:
 
 Simples uso de fine tuning do BERT português.
 
+## Status
+
+- v1: completa. Para o caso em `data/default.csv`, o modelo prevê com boa acurácia.
+
 ## Instalação
 
-Rode:
+Rode o comando para instalar as dependências, se possível num ambiente virtual.
 
 ```bash
+# Crie um ambiente virtual para instalar as dependências
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Instale as dependências
 pip install -r requirements.txt
 ```
 
@@ -19,10 +28,12 @@ pip install -r requirements.txt
 
 ```bash
 # retorna classe para um unico item
-python text.py --input_text "texto a ser classificado" --model "bert_fine_tuned.pt"
+python app.py \
+    --frase "Os bancos pagariam o governo caso os processos de indústria fossem realmente atendidos" \
+    --confianca 0.3
 
 # retorna classe para varios itens, documento com um item por linha
-python text.py --input_file "arquivo.txt" --model "bert_fine_tuned.pt"
+python app.py --arquivo text_example.txt --confianca 0.3 --tipo arquivo
 ```
 
 ## Caso de uso: retreino
